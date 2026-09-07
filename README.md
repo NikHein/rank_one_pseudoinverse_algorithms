@@ -1,1 +1,8 @@
-# rank_one_pseudoinverse_algorithms
+# PYTHON Code for Numerical Experiements of the Paper "..."
+
+## Author
+Thomas Hochrainer (...), Niko Heinemann (...)
+
+## Description
+
+
