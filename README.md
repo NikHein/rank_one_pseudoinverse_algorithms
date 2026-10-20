@@ -27,8 +27,8 @@ Experiment scripts:
 - `benchmark_runtime_vs_rank.py`: CPU time vs. relative rank for square `n × n` matrices (Figure 1)
 - `benchmark_runtime_rectangular.py`: CPU time vs. size for `n/2 × n` matrices (Figure 2)
 - `benchmark_penrose_error.py`: relative Penrose and forward error for `n × 10000` rank-100 matrices, well- and ill-conditioned (Figure 3)
-- `benchmark_nist_stability.py`: absolute Penrose residuals on classic ill-conditioned test matrices from NIST Matrix Market, generated from their formulas in the script (Table 1)
-- `benchmark_dmd_twomode.py`: runtime and accuracy in a dynamic mode decomposition of the two-mode signal (Figure 4)
+- `benchmark_nist_stability.py`: absolute Penrose residuals on classic ill-conditioned test matrices from NIST Matrix Market (Table 1)
+- `benchmark_dmd_twomode.py`: runtime and accuracy of the dynamic mode decomposition example (Figure 4)
 
 Runtimes are measured single-threaded (`OMP_NUM_THREADS = OPENBLAS_NUM_THREADS = 1`).
 
