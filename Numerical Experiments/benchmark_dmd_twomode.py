@@ -11,12 +11,12 @@ import scipy.linalg as la
 import matplotlib.pyplot as plt
 
 from algorithms import qb_pinv, direct_pseudoinverse_random
-from fast_tikhonov import fast_tikhonov
+from soto import soto
 from qrginv import qrginv
 
 EPS_ALGO = 1e-8
 RCOND_REF = 1e-10
-FAST_TOL = 1e-15
+SOTO_TOL = 1e-15
 N_REPS = 3
 OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -39,7 +39,7 @@ plt.rcParams.update(
 PLOT_METHODS = [
     ("direct", "Algorithm I", "s-"),
     ("qb", "Algorithm II", "o-"),
-    ("fast", "Fast (Tikhonov)", "v-"),
+    ("soto", "soto", "v-"),
     ("qrginv", "qrginv", "d-"),
     ("numpy", r"\texttt{numpy} pinv", "^-"),
 ]
@@ -119,7 +119,7 @@ def main():
                 lambda A, s=k: direct_pseudoinverse_random(A, epsilon=EPS_ALGO, seed=s),
             ),
             ("qb", lambda A: qb_pinv(A, epsilon=EPS_ALGO)),
-            ("fast", lambda A: fast_tikhonov(A, FAST_TOL)),
+            ("soto", lambda A: soto(A, SOTO_TOL)),
             ("qrginv", lambda A: qrginv(A, tol=RCOND_REF)),
             ("numpy", numpy_pinv),
         ]
@@ -184,7 +184,7 @@ def main():
             ax.legend(loc="best")
         ax.grid(True, which="both", linestyle="--", linewidth=0.3)
 
-    plot_methods = [pm for pm in PLOT_METHODS if pm[0] != "fast"]
+    plot_methods = [pm for pm in PLOT_METHODS if pm[0] != "soto"]
     fwd_plot_methods = [pm for pm in plot_methods if pm[0] != "numpy"]
 
     fig, axes = plt.subplots(2, 2, figsize=(5.07, 5.0))

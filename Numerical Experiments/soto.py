@@ -1,4 +1,4 @@
-"""Fast Tikhonov-regularized Moore-Penrose inverse
+"""Fast Tikhonov-regularized Moore-Penrose inverse (soto)
 P. Soto-Quiros, A fast method to estimate the moore-penrose inverse for well-determined numerical rank matrices based on tikhonov regularization, J Math Comput Sci 37 (1) (2024) 59–81.
 doi:10.22436/jmcs.037.01.05
 """
@@ -16,7 +16,7 @@ def _rcond(T):
     return rcond
 
 
-def fast_tikhonov(A, tol):
+def soto(A, tol):
     A = np.asarray(A)
     m, n = A.shape
     At = A.conj().T

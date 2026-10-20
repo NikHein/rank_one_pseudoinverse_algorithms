@@ -10,14 +10,14 @@ import numpy.linalg as nla
 import matplotlib.pyplot as plt
 
 from algorithms import qb_pinv, direct_pseudoinverse_random
-from fast_tikhonov import fast_tikhonov
+from soto import soto
 from qrginv import qrginv
 from verify_moore_penrose import verify_moore_penrose
 from generate_low_rank_matrix import generate_low_rank_matrix
 
 EPS_ALGO = 1e-8
 RCOND_REF = 1e-10
-FAST_TOL = 1e-15
+SOTO_TOL = 1e-15
 OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 plt.rcParams.update(
@@ -39,7 +39,7 @@ plt.rcParams.update(
 PLOT_METHODS = [
     ("direct", "Algorithm I", "s-"),
     ("qb", "Algorithm II", "o-"),
-    ("fast", "Fast (Tikhonov)", "v-"),
+    ("soto", "soto", "v-"),
     ("qrginv", "qrginv", "d-"),
     ("numpy", r"\texttt{numpy} pinv", "^-"),
 ]
@@ -98,13 +98,13 @@ def main(n=10000, rank=100, seeds=(42, 123, 456)):
                     seed_res["qb_forward_errors"].append(nla.norm(Ap_qb - Ap_numpy, "fro") / nrm_ref)
 
                     try:
-                        Ap_fast = fast_tikhonov(A, FAST_TOL)
-                        seed_res["fast_errors"].append(verify_moore_penrose(A, Ap_fast))
-                        seed_res["fast_forward_errors"].append(nla.norm(Ap_fast - Ap_numpy, "fro") / nrm_ref)
+                        Ap_soto = soto(A, SOTO_TOL)
+                        seed_res["soto_errors"].append(verify_moore_penrose(A, Ap_soto))
+                        seed_res["soto_forward_errors"].append(nla.norm(Ap_soto - Ap_numpy, "fro") / nrm_ref)
                     except Exception as e:
-                        print(f"      fast failed at m={m}: {e}")
-                        seed_res["fast_errors"].append(np.nan)
-                        seed_res["fast_forward_errors"].append(np.nan)
+                        print(f"      soto failed at m={m}: {e}")
+                        seed_res["soto_errors"].append(np.nan)
+                        seed_res["soto_forward_errors"].append(np.nan)
 
                     try:
                         Ap_qrginv = qrginv(A, tol=RCOND_REF)

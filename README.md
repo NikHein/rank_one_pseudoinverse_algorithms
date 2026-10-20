@@ -15,7 +15,7 @@ This repository reproduces all numerical experiments of the paper.
 
 The paper presents simple rank-one update algorithms for the Moore–Penrose pseudoinverse whose cost scales with the matrix rank rather than its dimension. They are fast for low-rank and large matrices. Algorithm II is accurate and robust throughout, Algorithm I is the fastest at low rank. Typical uses are time-critical low-rank pseudoinverse computations such as reduced-order modeling and dynamic mode decomposition.
 
-`algorithms.py` contains the two proposed algorithms; `qrginv.py` and `fast_tikhonov.py` are the reference methods used for comparison.
+`algorithms.py` contains the two proposed algorithms; `qrginv.py` and `soto.py` are the reference methods used for comparison.
 
 Supporting modules:
 
