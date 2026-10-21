@@ -5,35 +5,12 @@ import numpy as np
 
 def qb_decomposition(A, epsilon=1e-12):
     m, n = A.shape
-
-    first_col_idx = 0
-    while first_col_idx < n:
-        first_col_norm = np.linalg.norm(A[:, first_col_idx])
-        if first_col_norm >= epsilon:
-            break
-        first_col_idx += 1
-
-    if first_col_idx >= n:
-        return np.zeros((m, 0)), np.zeros((0, n))
-
     Q = np.zeros((n, m), dtype=A.dtype)
     B = np.zeros((n, n), dtype=A.dtype)
-
-    Q[0] = A[:, first_col_idx] / first_col_norm
-    B[0] = Q[0].conj() @ A
-    k = 1
-
+    k = 0
     j = 0
-    max_iters = 2 * n
-    iter_count = 0
-
-    while k + j + 1 <= n and iter_count < max_iters:
-        iter_count += 1
-        next_col_idx = k + j
-        if next_col_idx >= n:
-            break
-
-        q_bar = A[:, next_col_idx].copy()
+    while j < n:
+        q_bar = A[:, j].copy()
 
         proj = Q[:k].conj() @ q_bar
         q_bar = q_bar - proj @ Q[:k]
@@ -42,12 +19,11 @@ def qb_decomposition(A, epsilon=1e-12):
 
         q_bar_norm = np.linalg.norm(q_bar)
 
-        if q_bar_norm > epsilon * np.linalg.norm(A[:, next_col_idx]):
+        if q_bar_norm > epsilon * np.linalg.norm(A[:, j]):
             Q[k] = q_bar / q_bar_norm
             B[k, k:] = Q[k].conj() @ A[:, k:]
             k += 1
-        else:
-            j += 1
+        j += 1
 
     return Q[:k].T, B[:k]
 
